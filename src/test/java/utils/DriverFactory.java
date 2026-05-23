@@ -14,9 +14,7 @@ public class DriverFactory {
         String browserName = ConfigReader.get("browser");
         boolean headless = Boolean.parseBoolean(ConfigReader.get("headless"));
         int slowMo = Integer.parseInt(ConfigReader.get("slowmo"));
-
         BrowserType.LaunchOptions options = new BrowserType.LaunchOptions().setHeadless(headless).setSlowMo(slowMo);
-
         switch (browserName.toLowerCase()) {
             case "firefox":
                 browser = playwright.firefox()
@@ -38,20 +36,24 @@ public class DriverFactory {
         return page;
     }
 
-    public static void closeBrowser() {
+    public static BrowserContext getContext() {
+        return context;
+    }
 
+    public static Browser getBrowser() {
+        return browser;
+    }
+
+    public static void closeBrowser() {
         if (page != null) {
             page.close();
         }
-
         if (context != null) {
             context.close();
         }
-
         if (browser != null) {
             browser.close();
         }
-
         if (playwright != null) {
             playwright.close();
         }
