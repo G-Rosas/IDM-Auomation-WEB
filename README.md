@@ -1,6 +1,6 @@
-Sauce Demo Automation - Playwright + Cucumber
+# Sauce Demo Automation - Playwright + Cucumber
 
-Descripción
+## Descripción
 Proyecto de automatización QA FrontEnd para la aplicación:
 Sauce Demo
 
@@ -11,7 +11,7 @@ Java 17
 Maven
 Patrón de diseño Page Object Model (POM)
 
-Objetivo
+## Objetivo
 Automatizar los principales flujos de usuario:
 Login exitoso
 Login fallido
@@ -20,7 +20,7 @@ Visualizar productos en carrito
 Eliminar productos del carrito
 Completar checkout
 
-Tecnologías Utilizadas
+## Tecnologías Utilizadas
 Tecnología	Versión
 Java	    17
 Maven	    3+
@@ -29,7 +29,7 @@ Cucumber	Latest
 JUnit	    4
 IntelliJ IDEA	Recomendado
 
-Patrón de Diseño
+## Patrón de Diseño
 Se implementó el patrón:
 Page Object Model (POM)
 
@@ -39,7 +39,8 @@ reutilización
 legibilidad
 escalabilidad
 
-Estructura del Proyecto
+## Estructura del Proyecto
+```text
 src
 ├── main
 │
@@ -75,14 +76,15 @@ src
         ├── cart.feature
         ├── checkout.feature
         └── login.feature
+```        
 
-Configuración
+## Configuración
 1. Clonar repositorio
-   git clone https://github.com/TU-USUARIO/TU-REPO.git
+   git clone https://github.com/G-Rosas/IDM-Auomation-WEB
 2. Instalar dependencias
    mvn clean install
 
-Ejecución de Pruebas
+### Ejecución de Pruebas
 Ejecutar todos los tests
 mvn test
 Ejecutar por tags
@@ -95,7 +97,7 @@ mvn test "-Dcucumber.filter.tags=not @ignore"
 Ejecutar múltiples tags
 mvn test "-Dcucumber.filter.tags=@smoke-test and not @ignore"
 
-Escenarios Automatizados
+### Escenarios Automatizados
 Login
 Login exitoso con standard_user
 Login fallido con locked_out_user
@@ -111,7 +113,7 @@ Completar flujo de compra
 Validar mensaje de compra exitosa
 Manejo de Datos
 
-El framework soporta:
+### El framework soporta:
 productos dinámicos
 validaciones dinámicas
 manejo de múltiples productos en carrito mediante TestContext
@@ -125,13 +127,13 @@ browser=chromium
 headless=false
 slowmo=500
 
-Explicación de Propiedades
+### Explicación de Propiedades
 Propiedad - Descripción
 browser	  - Navegador utilizado
 headless  - Ejecutar con UI visible o no
 slowmo	  - Agrega demora entre acciones
 
-Buenas Prácticas Aplicadas
+### Buenas Prácticas Aplicadas
 Separación de responsabilidades
 Reutilización de componentes
 Uso de Page Object Model
@@ -140,5 +142,5 @@ Steps reutilizables
 Tags para ejecución selectiva
 Framework escalable
 
-Autor
+### Autor
 Giancarlo Christopher Rosas Villagra
