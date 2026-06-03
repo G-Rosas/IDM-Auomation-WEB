@@ -73,8 +73,14 @@ jobs:
       - name: Install Playwright Browsers
         run: mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install"
 
+      - name: Show Configuration
+        run: |
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Browser: ${{ matrix.browser }}"
+          echo "Tag: ${{ github.event.inputs.tag }}"  
+
       - name: Execute Tests
-        run: mvn clean test -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }}
+        run: mvn clean test -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }} -Dbrowser=${{ matrix.browser }}
 
       - name: Upload Reports
         if: always()
