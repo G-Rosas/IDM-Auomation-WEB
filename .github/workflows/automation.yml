@@ -70,8 +70,11 @@ jobs:
       - name: Install dependencies
         run: mvn clean compile
 
-      - name: Install Playwright Browsers
-        run: mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install"
+      - name: Install Playwright Browsers and Dependencies
+        run: |
+          mvn exec:java \
+          -Dexec.mainClass=com.microsoft.playwright.CLI \
+          -Dexec.args="install --with-deps"
 
       - name: Show Configuration
         run: |
