@@ -91,7 +91,7 @@ jobs:
           echo "Tag: ${{ github.event.inputs.tag }}"  
 
       - name: Execute Tests
-        run: mvn clean verify -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }} -Dbrowser=${{ matrix.browser }}
+        run: mvn clean test -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }} -Dbrowser=${{ matrix.browser }}
 
       - name: Upload Reports
         if: always()
