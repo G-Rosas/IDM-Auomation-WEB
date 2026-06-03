@@ -13,6 +13,11 @@ on:
 
     inputs:
 
+      jiraIssue:
+        description: "Jira Issue"
+        required: true
+        default: "IDM-1"
+
       environment:
         description: "Environment"
         required: true
@@ -35,6 +40,7 @@ on:
           - "@cart"
           - "@checkout"
           - "@negative"
+          - "@SCRUM-6"
 
 jobs:
   test:
@@ -123,3 +129,55 @@ jobs:
         with:
           name: allure-results-${{ matrix.browser }}
           path: target/allure-results/
+
+      - name: Update Jira
+        if: success()
+        run: |
+          curl --request POST \
+          --url "${{ secrets.JIRA_URL }}/rest/api/3/issue/${{ github.event.inputs.jiraIssue }}/comment" \
+          --user "${{ secrets.JIRA_EMAIL }}:${{ secrets.JIRA_TOKEN }}" \
+          --header "Accept: application/json" \
+          --header "Content-Type: application/json" \
+          --data '{
+            "body": {
+              "type": "doc",
+              "version": 1,
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Automation execution PASSED. Tag: ${{ github.event.inputs.tag }} | Environment: ${{ github.event.inputs.environment }} | Browser: ${{ matrix.browser }}"
+                    }
+                  ]
+                }
+              ]
+            }
+          }'
+
+      - name: Update Jira Failed
+        if: failure()
+        run: |
+          curl --request POST \
+          --url "${{ secrets.JIRA_URL }}/rest/api/3/issue/${{ github.event.inputs.jiraIssue }}/comment" \
+          --user "${{ secrets.JIRA_EMAIL }}:${{ secrets.JIRA_TOKEN }}" \
+          --header "Accept: application/json" \
+          --header "Content-Type: application/json" \
+          --data '{
+            "body": {
+              "type": "doc",
+              "version": 1,
+              "content": [
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Automation execution FAILED. Review GitHub Actions logs."
+                    }
+                  ]
+                }
+              ]
+            }
+          }'

@@ -14,7 +14,7 @@ Feature: Carrito de compras
     Then visualiza los productos agregados
 
 
-  @regresion
+  @SCRUM-7 @regresion
   Scenario Outline: Visualizar productos del carrito
     When agrega el producto "<producto>" al carrito
     And navega al carrito
