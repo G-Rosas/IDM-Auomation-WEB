@@ -134,7 +134,7 @@ jobs:
         if: success()
         run: |
           curl --request POST \
-          --url "${{ secrets.JIRA_URL }}/rest/api/3/issue/${{ github.event.inputs.jiraIssue }}/comment" \
+          --url "${{ secrets.JIRA_URL }}/browse/${{ github.event.inputs.jiraIssue }}/comment" \
           --user "${{ secrets.JIRA_EMAIL }}:${{ secrets.JIRA_TOKEN }}" \
           --header "Accept: application/json" \
           --header "Content-Type: application/json" \
