@@ -10,9 +10,10 @@ import org.junit.runner.RunWith;
         glue = {"steps", "hooks"},
         plugin = {
                 "pretty",
-                "html:target/cucumber-report.html"
-        },
-        tags = "not @ignore"
+                "html:target/cucumber-report.html",
+                "json:target/cucumber.json",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+        }
 )
 public class TestRunner {
 }

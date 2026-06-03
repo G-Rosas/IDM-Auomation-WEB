@@ -38,10 +38,12 @@ on:
 
 jobs:
   test:
+    name: Test - ${{ matrix.browser }}
 
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         browser:
           - chromium
@@ -76,6 +78,12 @@ jobs:
           -Dexec.mainClass=com.microsoft.playwright.CLI \
           -Dexec.args="install --with-deps"
 
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}
+
       - name: Show Configuration
         run: |
           echo "Environment: ${{ github.event.inputs.environment }}"
@@ -83,11 +91,29 @@ jobs:
           echo "Tag: ${{ github.event.inputs.tag }}"  
 
       - name: Execute Tests
-        run: mvn clean test -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }} -Dbrowser=${{ matrix.browser }}
+        run: mvn clean verify -Dcucumber.filter.tags="${{ github.event.inputs.tag }}" -Denv=${{ github.event.inputs.environment }} -Dbrowser=${{ matrix.browser }}
 
       - name: Upload Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: report-${{ matrix.browser }}
-          path: target/
+          path: |
+            target/cucumber-report.html
+            target/cucumber.json
+            target/surefire-reports/
+
+      - name: Test Summary
+        if: always()
+        run: |
+          echo "## Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Environment: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Browser: ${{ matrix.browser }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Tag: ${{ github.event.inputs.tag }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: target/allure-results/
