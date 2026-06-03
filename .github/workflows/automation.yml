@@ -133,8 +133,10 @@ jobs:
       - name: Update Jira
         if: success()
         run: |
+          ISSUE_KEY=$(echo "${{ github.event.inputs.tag }}" | sed 's/@//')
+
           curl --request POST \
-          --url "${{ secrets.JIRA_URL }}/rest/api/3/issue/${{ github.event.inputs.tag }}/comment" \
+          --url "${{ secrets.JIRA_URL }}/rest/api/3/issue/$ISSUE_KEY/comment" \
           --user "${{ secrets.JIRA_EMAIL }}:${{ secrets.JIRA_TOKEN }}" \
           --header "Accept: application/json" \
           --header "Content-Type: application/json" \
