@@ -40,7 +40,7 @@ on:
           - "@cart"
           - "@checkout"
           - "@negative"
-          - "@SCRUM-6"
+          - "@SCRUM-7"
 
 jobs:
   test:
