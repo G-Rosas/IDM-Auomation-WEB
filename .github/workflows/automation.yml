@@ -111,6 +111,12 @@ jobs:
           echo "- Browser: ${{ matrix.browser }}" >> $GITHUB_STEP_SUMMARY
           echo "- Tag: ${{ github.event.inputs.tag }}" >> $GITHUB_STEP_SUMMARY
 
+      - name: Verify Allure Results
+        if: always()
+        run: |
+          echo "Searching for Allure results..."
+          find . -type d | grep allure || true    
+
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
