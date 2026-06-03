@@ -41,3 +41,7 @@ build/
 .playwright/
 test-output/
 logs/
+
+# Allure
+allure-results/
+allure-report/
